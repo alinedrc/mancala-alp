@@ -31,30 +31,22 @@ def print_mancala(mancala):
     
 def proxima(linha, coluna, eh_jogador_1):
   if eh_jogador_1:
-    if linha == 2 and coluna < 5:
-      return linha, coluna + 1
-    elif linha == 2 and coluna == 5:
-      return 3, 0
-    elif linha == 3 and coluna == 0:
-      return 1, 5
-    elif linha == 1 and coluna > 0:
-      return linha, coluna - 1
-    elif linha == 1 and coluna == 0:
-       return 2, 0
+    if linha == 1:
+        return (linha,coluna+1) if coluna < 5 else (3,0)
+    elif linha == 2:
+        return (linha,coluna - 1) if coluna > 0 else (1,0)
+    elif linha == 3:
+        return (2,5)
+  else:
+    if linha == 2:
+        return (linha,coluna-1) if coluna > 0 else (0,0)
+    elif linha == 1:
+        return (linha,coluna+1) if coluna < 5 else (2,5)
+    elif linha == 0:
+        return (1,0)
 
-  elif not(eh_jogador_1):
-    if linha == 1 and coluna > 0:
-      return linha, coluna - 1
-    elif linha == 1 and coluna == 0:
-      return 0, 0
-    elif linha == 0 and coluna == 0:
-      return 2, 0
-    elif linha == 2 and   coluna < 5:
-      return linha, coluna + 1
-    elif  linha == 2 and coluna == 5:
-      return 1, 5
-
-  return 
+def esvaziar_cova(linha,coluna):
+    mancala[linha][coluna] = 0
 
 jogando = True
 eh_jogador_1 = True
@@ -63,65 +55,60 @@ ultima_cova = -1
 escolha = -1
 linha = 0
 coluna = 0
+mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
 
 while (jogando):
-  
-  mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
-
   print("")
   print_mancala(mancala)
   print("")
-  
-  if eh_jogador_1:
-    escolha = input("Jogador 1, escolha uma cova de A a F ou digite 'x' para desistir: ")
-  elif not(eh_jogador_1):
-    escolha = input("Jogador 2,escolha uma cova de G a L  ou digite 'x' para desistir: ")
-  print("")
 
-  if escolha == "x":
-        jogando = False 
-  elif eh_jogador_1 and escolha == "A":
-        cova_escolhida = int(mancala[1][0])
-  elif eh_jogador_1 and escolha == "B":
-        cova_escolhida = int(mancala[1][1])
-  elif eh_jogador_1 and escolha == "C":
-        cova_escolhida = int(mancala[1][2])	
-  elif eh_jogador_1 and escolha == "D":
-        cova_escolhida = int(mancala[1][3])
-  elif eh_jogador_1 and escolha == "E":
-        cova_escolhida = int(mancala[1][4])
-  elif eh_jogador_1 and escolha == "F":
-        cova_escolhida = int(mancala[1][5])
-  elif not(eh_jogador_1) and escolha == "G":
-        cova_escolhida = int(mancala[2][0])
-  elif not(eh_jogador_1) and escolha == "H":
-        cova_escolhida = int(mancala[2][1])
-  elif not(eh_jogador_1) and escolha == "I":
-        cova_escolhida = int(mancala[2][2])
-  elif not(eh_jogador_1) and escolha == "J":
-        cova_escolhida = int(mancala[2][3])
-  elif not(eh_jogador_1) and escolha == "K":
-        cova_escolhida = int(mancala[2][4])
-  elif not(eh_jogador_1) and escolha == "L":
-        cova_escolhida = int(mancala[2][5])
-  else:
-        print("\nEscolha inválida, tente novamente!")
-  
-  eh_jogador_1 = not(eh_jogador_1)
+  escolha_feita = False
+  while not escolha_feita:
+    if eh_jogador_1:
+      escolha = input("Jogador 1, escolha uma cova de A a F ou digite 'x' para desistir: ")
+    else:
+      escolha = input("Jogador 2,escolha uma cova de G a L  ou digite 'x' para desistir: ")
+    print("")
+    if escolha == "x":
+          jogando = False 
+    elif eh_jogador_1 and escolha == "A":
+          cova_escolhida = (1,0)
+    elif eh_jogador_1 and escolha == "B":
+          cova_escolhida = (1,1)
+    elif eh_jogador_1 and escolha == "C":
+          cova_escolhida = (1,2)
+    elif eh_jogador_1 and escolha == "D":
+          cova_escolhida = (1,3)
+    elif eh_jogador_1 and escolha == "E":
+          cova_escolhida = (1,4)
+    elif eh_jogador_1 and escolha == "F":
+          cova_escolhida = (1,5)
+    elif not(eh_jogador_1) and escolha == "G":
+          cova_escolhida = (2,0)
+    elif not(eh_jogador_1) and escolha == "H":
+          cova_escolhida = (2,1)
+    elif not(eh_jogador_1) and escolha == "I":
+          cova_escolhida = (2,2)
+    elif not(eh_jogador_1) and escolha == "J":
+          cova_escolhida = (2,3)
+    elif not(eh_jogador_1) and escolha == "K":
+          cova_escolhida = (2,4)
+    elif not(eh_jogador_1) and escolha == "L":
+          cova_escolhida = (2,5)
+    else:
+          print("\nEscolha inválida, tente novamente!")
+          continue # TODO: Corrigir isso
+    linha, coluna = cova_escolhida
+    sementes_na_mao = mancala[linha][coluna]
+    if sementes_na_mao == 0:
+      print("Escolha inválida, sem sementes nessa cova!")
+    else:
+      escolha_feita = True
 
-  #print(cova_escolhida) #print pra ver se as variáveis estão sendo reconhecidas 
-  cova_escolhida = mancala[linha][coluna]
-  mancala[linha][coluna] = 0
-  if int(cova_escolhida) >= 0:
-      sementes_na_mao= mancala[linha][coluna]
-      mancala[linha][coluna]= 0
-
+  esvaziar_cova(linha,coluna)
   while sementes_na_mao > 0:
-        linha, coluna = proxima(linha, coluna, mancala, eh_jogador_1)
+        linha, coluna = proxima(linha,coluna,eh_jogador_1)
         sementes_na_mao -= 1
         mancala[linha][coluna] += 1
   
   eh_jogador_1 = not(eh_jogador_1)
-
-
-#PENSA EM UM FOR SUA ANTA
