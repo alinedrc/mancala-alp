@@ -1,4 +1,15 @@
 #mancala
+jogando = True
+eh_jogador_1 = True
+sementes_na_mao = -1
+ultima_cova = -1
+escolha = -1
+linha = 0
+coluna = 0
+cova_escolhida = -1
+mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
+m1 = mancala[0][0] #mancala do jogador 2
+m2 = mancala[3][0] #mancala do jogador 1
 
 # Função para formatar a linha de area de cada jogador
 def formatar_linha(lista):
@@ -48,14 +59,17 @@ def proxima(linha, coluna, eh_jogador_1):
 def esvaziar_cova(linha,coluna):
     mancala[linha][coluna] = 0
 
-jogando = True
-eh_jogador_1 = True
-sementes_na_mao = -1
-ultima_cova = -1
-escolha = -1
-linha = 0
-coluna = 0
-mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
+def capturar_sementes(mancala,linha,coluna,m1,m2):
+  if linha == 1 and mancala[1][coluna] == 1 and sementes_na_mao == 0 and mancala[2][coluna] != 0 and eh_jogador_1:
+    mancala[3][0] = mancala[2][coluna] + mancala[1][coluna] + mancala[3][0]
+    mancala[2][coluna] = 0
+    mancala[1][coluna] = 0
+  elif linha == 2 and mancala[2][coluna] == 1 and sementes_na_mao == 0 and mancala[1][coluna] != 0 and not(eh_jogador_1):
+    mancala[0][0] = mancala[2][coluna] + mancala[1][coluna] + mancala[0][0]
+    mancala[2][coluna] = 0
+    mancala[1][coluna] = 0
+    
+  return 
 
 while (jogando):
   print("")
@@ -68,47 +82,65 @@ while (jogando):
       escolha = input("Jogador 1, escolha uma cova de A a F ou digite 'x' para desistir: ")
     else:
       escolha = input("Jogador 2,escolha uma cova de G a L  ou digite 'x' para desistir: ")
+
     print("")
     if escolha == "x":
-          jogando = False 
+          jogando = False
+          escolha_feita = True
+
     elif eh_jogador_1 and escolha == "A":
           cova_escolhida = (1,0)
+          escolha_feita = True
     elif eh_jogador_1 and escolha == "B":
           cova_escolhida = (1,1)
+          escolha_feita = True
     elif eh_jogador_1 and escolha == "C":
           cova_escolhida = (1,2)
+          escolha_feita = True
     elif eh_jogador_1 and escolha == "D":
           cova_escolhida = (1,3)
+          escolha_feita = True
     elif eh_jogador_1 and escolha == "E":
           cova_escolhida = (1,4)
+          escolha_feita = True
     elif eh_jogador_1 and escolha == "F":
           cova_escolhida = (1,5)
+          escolha_feita = True
     elif not(eh_jogador_1) and escolha == "G":
           cova_escolhida = (2,0)
+          escolha_feita = True
     elif not(eh_jogador_1) and escolha == "H":
           cova_escolhida = (2,1)
+          escolha_feita = True
     elif not(eh_jogador_1) and escolha == "I":
           cova_escolhida = (2,2)
+          escolha_feita = True
     elif not(eh_jogador_1) and escolha == "J":
           cova_escolhida = (2,3)
+          escolha_feita = True
     elif not(eh_jogador_1) and escolha == "K":
           cova_escolhida = (2,4)
+          escolha_feita = True
     elif not(eh_jogador_1) and escolha == "L":
           cova_escolhida = (2,5)
+          escolha_feita = True
     else:
           print("\nEscolha inválida, tente novamente!")
-          continue # TODO: Corrigir isso
-    linha, coluna = cova_escolhida
-    sementes_na_mao = mancala[linha][coluna]
-    if sementes_na_mao == 0:
-      print("Escolha inválida, sem sementes nessa cova!")
-    else:
-      escolha_feita = True
+    
+    if jogando and escolha_feita:
+      linha, coluna = cova_escolhida
+      sementes_na_mao = mancala[linha][coluna]
+      if sementes_na_mao == 0:
+            print("Escolha inválida, sem sementes nessa cova!")
+      else:
+            escolha_feita = True
 
-  esvaziar_cova(linha,coluna)
-  while sementes_na_mao > 0:
-        linha, coluna = proxima(linha,coluna,eh_jogador_1)
-        sementes_na_mao -= 1
-        mancala[linha][coluna] += 1
-  
+            esvaziar_cova(linha,coluna)
+            while sementes_na_mao > 0:
+                  linha, coluna = proxima(linha,coluna,eh_jogador_1)
+                  sementes_na_mao -= 1
+                  mancala[linha][coluna] += 1
+                  capturar_sementes(mancala,linha,coluna,m1,m2)
+
+
   eh_jogador_1 = not(eh_jogador_1)
