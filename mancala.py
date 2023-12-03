@@ -1,15 +1,15 @@
-#mancala
+from random import randint
+
 jogando = True
-eh_jogador_1 = True
+eh_jogador_1 = randint(1,2) == 1
 sementes_na_mao = -1
-ultima_cova = -1
 escolha = -1
 linha = 0
 coluna = 0
 cova_escolhida = -1
 mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
-m1 = mancala[0][0] #mancala do jogador 2
-m2 = mancala[3][0] #mancala do jogador 1
+mancala_p2 = mancala[0][0] #mancala do jogador 2
+mancala_p1 = mancala[3][0] #mancala do jogador 1
 
 # Função para formatar a linha de area de cada jogador
 def formatar_linha(lista):
@@ -28,12 +28,12 @@ def converte_para_str(lista_de_ints):
 
 #Função para formatar o tabuleiro da mancala
 def print_mancala(mancala):
-    m1 = mancala[0][0] #mancala do jogador 2
-    m2 = mancala[3][0] #mancala do jogador 1
+    mancala_p2 = mancala[0][0] #mancala do jogador 2
+    mancala_p1 = mancala[3][0] #mancala do jogador 1
     l1 = ("*---------------------------------*")
     l2 = (f"| P2 |G  |H  |I  |J  |K  |L  | P1 |")
     l3 = (f"|    {formatar_linha(converte_para_str(mancala[2]))}    |")
-    l4 = (f"|  {m1} |-----------------------|  {m2} |")
+    l4 = (f"|  {mancala_p2} |-----------------------|  {mancala_p1} |")
     l5 = (f"|    |A  |B  |C  |D  |E  |F  |    |")
     l6 = (f"|    {formatar_linha(converte_para_str(mancala[1]))}    |")
     l7 = ("*---------------------------------*")
@@ -59,88 +59,109 @@ def proxima(linha, coluna, eh_jogador_1):
 def esvaziar_cova(linha,coluna):
     mancala[linha][coluna] = 0
 
-def capturar_sementes(mancala,linha,coluna,m1,m2):
-  if linha == 1 and mancala[1][coluna] == 1 and sementes_na_mao == 0 and mancala[2][coluna] != 0 and eh_jogador_1:
-    mancala[3][0] = mancala[2][coluna] + mancala[1][coluna] + mancala[3][0]
-    mancala[2][coluna] = 0
-    mancala[1][coluna] = 0
-  elif linha == 2 and mancala[2][coluna] == 1 and sementes_na_mao == 0 and mancala[1][coluna] != 0 and not(eh_jogador_1):
-    mancala[0][0] = mancala[2][coluna] + mancala[1][coluna] + mancala[0][0]
-    mancala[2][coluna] = 0
-    mancala[1][coluna] = 0
-    
-  return 
+def capturar_sementes(mancala,linha,coluna):
+      if linha == 1 and mancala[1][coluna] == 1 and sementes_na_mao == 0 and mancala[2][coluna] != 0 and eh_jogador_1:
+            mancala[3][0] = mancala[2][coluna] + mancala[1][coluna] + mancala[3][0]
+            mancala[2][coluna] = 0
+            mancala[1][coluna] = 0
+      elif linha == 2 and mancala[2][coluna] == 1 and sementes_na_mao == 0 and mancala[1][coluna] != 0 and not(eh_jogador_1):
+            mancala[0][0] = mancala[2][coluna] + mancala[1][coluna] + mancala[0][0]
+            mancala[2][coluna] = 0
+            mancala[1][coluna] = 0
+      return 
+
+def somar_sementes(mancala):
+      soma = 0
+      for linha in mancala:
+            for semente in linha:
+                  soma += semente
+      return soma 
+
+def pode_jogar_novamente(linha, coluna, eh_jogador_1):
+     if eh_jogador_1:
+          return linha == 3 and coluna == 0
+     else:
+          return linha == 0 and coluna == 0
+
+#def jogar(mancala,linha,coluna,eh_jogador_1):
+      #jogando = True
+      #eh_jogador_1 = True
 
 while (jogando):
-  print("")
-  print_mancala(mancala)
-  print("")
+            print("")
+            print_mancala(mancala)
+            print("")
 
-  escolha_feita = False
-  while not escolha_feita:
-    if eh_jogador_1:
-      escolha = input("Jogador 1, escolha uma cova de A a F ou digite 'x' para desistir: ")
-    else:
-      escolha = input("Jogador 2,escolha uma cova de G a L  ou digite 'x' para desistir: ")
+            escolha_feita = False
+            while not escolha_feita:
+                  if eh_jogador_1:
+                        escolha = input("\nJogador 1, escolha uma cova de A a F ou digite 'x' para desistir: ")
+                        print("")
+                  else:
+                        escolha = input("\nJogador 2,escolha uma cova de G a L  ou digite 'x' para desistir: ")
+                        print("")
+      
+                  if escolha == "x":
+                        jogando = False
+                        escolha_feita = True
 
-    print("")
-    if escolha == "x":
-          jogando = False
-          escolha_feita = True
+                  elif eh_jogador_1 and escolha == "A":
+                        cova_escolhida = (1,0)
+                        escolha_feita = True
+                  elif eh_jogador_1 and escolha == "B":
+                        cova_escolhida = (1,1)
+                        escolha_feita = True
+                  elif eh_jogador_1 and escolha == "C":
+                        cova_escolhida = (1,2)
+                        escolha_feita = True
+                  elif eh_jogador_1 and escolha == "D":
+                        cova_escolhida = (1,3)
+                        escolha_feita = True
+                  elif eh_jogador_1 and escolha == "E":
+                        cova_escolhida = (1,4)
+                        escolha_feita = True
+                  elif eh_jogador_1 and escolha == "F":
+                        cova_escolhida = (1,5)
+                        escolha_feita = True
+                  elif not(eh_jogador_1) and escolha == "G":
+                        cova_escolhida = (2,0)
+                        escolha_feita = True
+                  elif not(eh_jogador_1) and escolha == "H":
+                        cova_escolhida = (2,1)
+                        escolha_feita = True
+                  elif not(eh_jogador_1) and escolha == "I":
+                        cova_escolhida = (2,2)
+                        escolha_feita = True
+                  elif not(eh_jogador_1) and escolha == "J":
+                        cova_escolhida = (2,3)
+                        escolha_feita = True
+                  elif not(eh_jogador_1) and escolha == "K":
+                        cova_escolhida = (2,4)
+                        escolha_feita = True
+                  elif not(eh_jogador_1) and escolha == "L":
+                        cova_escolhida = (2,5)
+                        escolha_feita = True
+                  else:
+                        print("\nEscolha inválida, tente novamente!\n")
+                  
+                  if jogando and escolha_feita:
+                        linha, coluna = cova_escolhida
+                        sementes_na_mao = mancala[linha][coluna]
+                        if sementes_na_mao == 0:
+                              print("\nEscolha inválida, sem sementes nessa cova!\n")
+                        else:
+                              escolha_feita = True
+                  
+                  esvaziar_cova(linha,coluna)
+                  while sementes_na_mao > 0:
+                        linha, coluna = proxima(linha,coluna,eh_jogador_1)
+                        sementes_na_mao -= 1
+                        mancala[linha][coluna] += 1
+                        capturar_sementes(mancala,linha,coluna)
+                  
+                  jogar_novamente = pode_jogar_novamente(linha,coluna,eh_jogador_1)
 
-    elif eh_jogador_1 and escolha == "A":
-          cova_escolhida = (1,0)
-          escolha_feita = True
-    elif eh_jogador_1 and escolha == "B":
-          cova_escolhida = (1,1)
-          escolha_feita = True
-    elif eh_jogador_1 and escolha == "C":
-          cova_escolhida = (1,2)
-          escolha_feita = True
-    elif eh_jogador_1 and escolha == "D":
-          cova_escolhida = (1,3)
-          escolha_feita = True
-    elif eh_jogador_1 and escolha == "E":
-          cova_escolhida = (1,4)
-          escolha_feita = True
-    elif eh_jogador_1 and escolha == "F":
-          cova_escolhida = (1,5)
-          escolha_feita = True
-    elif not(eh_jogador_1) and escolha == "G":
-          cova_escolhida = (2,0)
-          escolha_feita = True
-    elif not(eh_jogador_1) and escolha == "H":
-          cova_escolhida = (2,1)
-          escolha_feita = True
-    elif not(eh_jogador_1) and escolha == "I":
-          cova_escolhida = (2,2)
-          escolha_feita = True
-    elif not(eh_jogador_1) and escolha == "J":
-          cova_escolhida = (2,3)
-          escolha_feita = True
-    elif not(eh_jogador_1) and escolha == "K":
-          cova_escolhida = (2,4)
-          escolha_feita = True
-    elif not(eh_jogador_1) and escolha == "L":
-          cova_escolhida = (2,5)
-          escolha_feita = True
-    else:
-          print("\nEscolha inválida, tente novamente!")
-    
-    if jogando and escolha_feita:
-      linha, coluna = cova_escolhida
-      sementes_na_mao = mancala[linha][coluna]
-      if sementes_na_mao == 0:
-            print("Escolha inválida, sem sementes nessa cova!")
-      else:
-            escolha_feita = True
-
-            esvaziar_cova(linha,coluna)
-            while sementes_na_mao > 0:
-                  linha, coluna = proxima(linha,coluna,eh_jogador_1)
-                  sementes_na_mao -= 1
-                  mancala[linha][coluna] += 1
-                  capturar_sementes(mancala,linha,coluna,m1,m2)
-
-
-  eh_jogador_1 = not(eh_jogador_1)
+            if not jogar_novamente:
+                  eh_jogador_1 = not(eh_jogador_1)
+            else:
+                 print("Pode jogar novamente! \n")
