@@ -100,11 +100,7 @@ def pode_jogar_novamente(linha, coluna, eh_jogador_1):
      if eh_jogador_1:
           return linha == 3 and coluna == 0
      else:
-          return linha == 0 and coluna == 0
-
-def nova_rodada(mancala):
-      jogando = False
-      
+          return linha == 0 and coluna == 0   
 
 while (jogando):
             print("")
