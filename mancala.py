@@ -129,6 +129,13 @@ while (jogando):
                   print("*-----------------*")
 
                   jogando = False
+
+                  novo_jogo = input("\nVocê quer jogar mais uma rodada? Digite Sim ou Não. ")
+                  if novo_jogo == "Sim":
+                        mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
+                        jogando = True
+                  else:
+                        print("\nObrigada por jogar, até a próxima!")
             
             else:
                   escolha_feita = False
@@ -143,6 +150,12 @@ while (jogando):
                         if escolha == "x":
                               jogando = False
                               escolha_feita = True
+                              novo_jogo = input("\nVocê quer jogar mais uma rodada? Digite Sim ou Não. ")
+                              if novo_jogo == "Sim":
+                                    mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
+                                    jogando = True
+                              else:
+                                    print("\nObrigada por jogar, até a próxima!")
 
                         elif eh_jogador_1 and escolha == "A":
                               cova_escolhida = (1,0)
