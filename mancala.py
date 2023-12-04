@@ -102,6 +102,9 @@ def pode_jogar_novamente(linha, coluna, eh_jogador_1):
      else:
           return linha == 0 and coluna == 0
 
+def nova_rodada(mancala):
+      jogando = False
+      
 
 while (jogando):
             print("")
@@ -129,14 +132,14 @@ while (jogando):
                   print("*-----------------*")
 
                   jogando = False
-
+                  
                   novo_jogo = input("\nVocê quer jogar mais uma rodada? Digite Sim ou Não. ")
                   if novo_jogo == "Sim":
                         mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
                         jogando = True
                   else:
                         print("\nObrigada por jogar, até a próxima!")
-            
+                  
             else:
                   escolha_feita = False
                   while not escolha_feita:
