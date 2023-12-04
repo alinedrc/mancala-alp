@@ -33,7 +33,7 @@ def print_mancala(mancala):
     l1 = ("*---------------------------------*")
     l2 = (f"| P2 |G  |H  |I  |J  |K  |L  | P1 |")
     l3 = (f"|    {formatar_linha(converte_para_str(mancala[2]))}    |")
-    l4 = (f"|  {mancala_p2} |-----------------------|  {mancala_p1} |")
+    l4 = (f"| {mancala_p2:02d} |-----------------------| {mancala_p1:02d} |")
     l5 = (f"|    |A  |B  |C  |D  |E  |F  |    |")
     l6 = (f"|    {formatar_linha(converte_para_str(mancala[1]))}    |")
     l7 = ("*---------------------------------*")
@@ -70,8 +70,17 @@ def capturar_sementes(mancala,linha,coluna):
             mancala[1][coluna] = 0
       return 
 
+def zerar_linha(linha):
+     for i in range(len(linha)):
+          linha[i] = 0
+          
+def soma_sementes(linha):
+     soma = 0
+     for cova in linha:
+          soma += cova
+     return soma
+
 def eh_fim_de_jogo(mancala):
-     # linha do jogador 1 eh zero ou linha do jogador 2 eh zero
      soma_jogador_1 = soma_sementes(mancala[1])
      soma_jogador_2 = soma_sementes(mancala[2])
      
@@ -79,19 +88,13 @@ def eh_fim_de_jogo(mancala):
           return False
      
      if soma_jogador_2 == 0:
-          # somar soma_jogador_1 na mancala do jogador 1
           mancala[3][0] += soma_jogador_1
+          zerar_linha(mancala[1])
      if soma_jogador_1 == 0:
-         # somar soma_jogador_2 na mancala do jogador 2 
          mancala[0][0] += soma_jogador_2
-     
-     return True
+         zerar_linha(mancala[2])
 
-def soma_sementes(linha):
-     soma = 0
-     for cova in linha:
-          soma += cova
-     return soma
+     return True
 
 def pode_jogar_novamente(linha, coluna, eh_jogador_1):
      if eh_jogador_1:
@@ -106,15 +109,27 @@ while (jogando):
             print("")
 
             if eh_fim_de_jogo(mancala):
-                 # fazer alguma coisa
-                 print("Fim de jogo!")
-                 if mancala[3][0] > mancala[0][0]:
-                      print("Jogador 1 ganhou!")
-                 elif mancala[3][0] < mancala[0][0]:
-                      print("Jogador 2 ganhou!")
-                 else:
+                  print_mancala(mancala)
+                  print("\nFim de jogo!")
+                  placar_p1 = 0
+                  placar_p2 = 0
+                  if mancala[3][0] > mancala[0][0]:
+                      print("\nJogador 1 ganhou!")
+                      placar_p1 += 1
+                  elif mancala[3][0] < mancala[0][0]:
+                      print("\nJogador 2 ganhou!")
+                      placar_p2 += 1
+                  else:
                       print("Empatou :(")
-                 jogando = False
+                      placar_p1 += 1
+                      placar_p2 += 1
+                  print("")
+                  print("*------PLACAR-----*")
+                  print(f"| P1 | {placar_p1} X {placar_p2} | P2 |")
+                  print("*-----------------*")
+
+                  jogando = False
+            
             else:
                   escolha_feita = False
                   while not escolha_feita:
