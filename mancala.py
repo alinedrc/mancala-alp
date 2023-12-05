@@ -2,7 +2,7 @@ from random import randint
 
 jogando = True
 eh_jogador_1 = randint(1,2) == 1
-sementes_na_mao = -1 #as variáveis estão com valor negativo pra ficar inválido e inicializar elas
+sementes_na_mao = -1 #as variáveis estão com valor negativo para ficar inválido e inicializá-las
 escolha = -1
 linha = 0
 coluna = 0
@@ -11,7 +11,7 @@ mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
 mancala_p2 = mancala[0][0] #mancala do jogador 2
 mancala_p1 = mancala[3][0] #mancala do jogador 1
 
-# Função para formatar a linha de area jogada de cada jogador
+# Função para formatar a linha de area de jogada de cada jogador
 def formatar_linha(lista):
   resultado = "|"
   for elemento in lista:
