@@ -96,7 +96,8 @@ def eh_fim_de_jogo(mancala):
 
      return True
 
-def pode_jogar_novamente(linha, coluna, eh_jogador_1):
+#Função para verificar se aquela cova pode retornar as mancalas, se não o jogar não joga de volta
+def pode_jogar_novamente(linha, coluna, eh_jogador_1): 
      if eh_jogador_1:
           return linha == 3 and coluna == 0
      else:
@@ -131,7 +132,7 @@ while (jogando):
                   
                   novo_jogo = input("\nVocê quer jogar mais uma rodada? Digite Sim ou Não. ")
                   if novo_jogo == "Sim":
-                        mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
+                        mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]] #Aqui faz um reset no tabuleiro
                         jogando = True
                   else:
                         print("\nObrigada por jogar, até a próxima!")
