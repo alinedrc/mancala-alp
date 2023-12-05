@@ -2,7 +2,7 @@ from random import randint
 
 jogando = True
 eh_jogador_1 = randint(1,2) == 1
-sementes_na_mao = -1
+sementes_na_mao = -1 #as variáveis estão com valor negativo pra ficar inválido e inicializar elas
 escolha = -1
 linha = 0
 coluna = 0
@@ -11,7 +11,7 @@ mancala = [[0],[4,4,4,4,4,4],[4,4,4,4,4,4],[0]]
 mancala_p2 = mancala[0][0] #mancala do jogador 2
 mancala_p1 = mancala[3][0] #mancala do jogador 1
 
-# Função para formatar a linha de area de cada jogador
+# Função para formatar a linha de area jogada de cada jogador
 def formatar_linha(lista):
   resultado = "|"
   for elemento in lista:
@@ -30,13 +30,13 @@ def converte_para_str(lista_de_ints):
 def print_mancala(mancala):
     mancala_p2 = mancala[0][0] #mancala do jogador 2
     mancala_p1 = mancala[3][0] #mancala do jogador 1
-    l1 = ("*---------------------------------*")
+    l1 = ("*--------<<< JOGADOR 2 <<<--------*")
     l2 = (f"| P2 |G  |H  |I  |J  |K  |L  | P1 |")
     l3 = (f"|    {formatar_linha(converte_para_str(mancala[2]))}    |")
     l4 = (f"| {mancala_p2:02d} |-----------------------| {mancala_p1:02d} |")
     l5 = (f"|    |A  |B  |C  |D  |E  |F  |    |")
     l6 = (f"|    {formatar_linha(converte_para_str(mancala[1]))}    |")
-    l7 = ("*---------------------------------*")
+    l7 = ("*-------->>> JOGADOR 1 >>>--------*")
 
     print(f"{l1}\n{l2}\n{l3}\n{l4}\n{l5}\n{l6}\n{l7}")
     
